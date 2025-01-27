@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-import module1_formula_and_identifier_retrieval as module1
+import PhysWikiQuiz.module1_formula_and_identifier_retrieval as module1
 
 sample_IDs_path = "evaluation/sample_IDs.csv"
 benchmark_dump_path = "evaluation/benchmark_dump/sample_items.json"

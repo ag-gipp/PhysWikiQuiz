@@ -7,16 +7,16 @@
 # TODO: module5.check_value:
 # allow percentage float tolerance for answer value
 
-import benchmark_cache
-import module1_formula_and_identifier_retrieval as module1
-import module2_formula_rearrangement as module2
-import module3_identifier_value_generation as module3
-import module4_question_text_generation as module4
-import module5_solution_value_and_unit_check as module5
-import module6_explanation_text_generation as module6
+from PhysWikiQuiz import benchmark_cache
+import PhysWikiQuiz.module1_formula_and_identifier_retrieval as module1
+import PhysWikiQuiz.module2_formula_rearrangement as module2
+import PhysWikiQuiz.module3_identifier_value_generation as module3
+import PhysWikiQuiz.module4_question_text_generation as module4
+import PhysWikiQuiz.module5_solution_value_and_unit_check as module5
+import PhysWikiQuiz.module6_explanation_text_generation as module6
 
 
-def generate_question(name):
+def generate_question(name, verbose=False):
 	##############################################
 	# Module 1: Formula and Identifier Retrieval #
 	##############################################
@@ -24,20 +24,23 @@ def generate_question(name):
 	# INSTRUCTOR INPUT
 
 	# Input Formula Concept name
-	print('\nInput Formula Concept name: ', name)
+	if verbose:
+		print('\nInput Formula Concept name: ', name)
 
 	# If not QID, get QID from name
-	print('\nRetrieving Wikidata item qid...\n')
+		print('\nRetrieving Wikidata item qid...\n')
 	if name.startswith('Q') and name[1:].isnumeric():
 		qid = name
 	else:
 		qid = module1.get_qid_pywikibot(name)
 		if qid == 'N/A':
 			qid = module1.get_qid_sparql_with_defining_formula(name)
-	print(f'Retrieving formula concept for qid >>{qid}<<...\n')
+	if verbose:
+		print(f'Retrieving formula concept for qid >>{qid}<<...\n')
 
 	# Get item from QID
-	print('\nRetrieving Wikidata item...\n')
+	if verbose:
+		print('\nRetrieving Wikidata item...\n')
 	# Check if in benchmark sample dataset
 	try:
 		sample_items = benchmark_cache.load_benchmark_dump()
@@ -56,20 +59,23 @@ def generate_question(name):
 	# print(f'Retrieving formula concept name: >>{concept_name}<<\n')
 
 	# System output for processing question
-	print(f'Generating physics formula question for >>{name}<<...\n')
+	if verbose:
+		print(f'Generating physics formula question for >>{name}<<...\n')
 
 	# Get defining formula
 	try:
 		defining_formula = module1.get_defining_formula(item)
 	except:
 		return 'Defining formula retrieval unsuccessful', None, None, ''
-	print(f'Retrieved defining formula: >>{defining_formula}<<\n')
+	if verbose:
+		print(f'Retrieved defining formula: >>{defining_formula}<<\n')
 
 	# Get formula unit dimension
 	# formula_unit_dimension = module1.get_formula_unit_dimension(item)
 
 	# Get formula identifier property (name, symbol, unit) triples
-	print('Retrieving formula identifier properties...\n')
+	if verbose:
+		print('Retrieving formula identifier properties...\n')
 	try:
 		formula_identifiers = module1.get_identifier_properties(item)
 	except:
@@ -81,7 +87,8 @@ def generate_question(name):
 	# Module 2: Formula Rearrangement #
 	###################################
 
-	print('Generating formula rearrangements...\n')
+	if verbose:
+		print('Generating formula rearrangements...\n')
 	# Get formula rearrangements using Computer Algebra Systems (CAS), SymPy
 	defining_formula, formula_identifiers, formula_unit_dimension = module2.get_random_formula_rearrangements(
 		defining_formula, formula_identifiers)
@@ -90,7 +97,8 @@ def generate_question(name):
 	# Module 3: Identifier Value Generation #
 	#########################################
 
-	print('Generating random identifier values...\n')
+	if verbose:
+		print('Generating random identifier values...\n')
 	try:
 		identifier_values = module3.get_random_identifier_values(formula_identifiers, defining_formula)
 	except:
@@ -102,9 +110,11 @@ def generate_question(name):
 	# Module 4: Question Text Generation #
 	######################################
 
-	print('Generating formula question text...\n')
+	if verbose:
+		print('Generating formula question text...\n')
 	question_text = module4.get_question_text(formula_identifiers, identifier_values)
-	print(question_text)
+	if verbose:
+		print(question_text)
 
 	#########################################
 	# Module 6: Explanation Text Generation #
