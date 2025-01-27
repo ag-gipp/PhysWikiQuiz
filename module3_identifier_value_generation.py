@@ -45,8 +45,8 @@ def get_random_identifier_values(formula_identifiers,defining_formula):
 
     # convert LaTeX to Sympy format
     # formula_sympy = latex2sympy.strToSympy(defining_formula)
-    #formula_sympy = latex2sympy(defining_formula)
-    formula_sympy = get_sympy_from_latex_using_vmext_api(defining_formula)
+    formula_sympy = latex2sympy(defining_formula)
+    # formula_sympy = get_sympy_from_latex_using_vmext_api(defining_formula)
     print('Formula sympy: ',formula_sympy)
 
     # substitute generated random values to calculate left-hand side
