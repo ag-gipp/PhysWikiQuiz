@@ -7,13 +7,13 @@ import SPARQLWrapper
 # load cleanings
 cleanings_simple_identifier = []
 cleanings_simple_formula = []
-with open('latex_cleanings_simple_identifier.csv') as f:
+with open(__file__.replace("module1_formula_and_identifier_retrieval.py", 'latex_cleanings_simple_identifier.csv')) as f:
     for row in csv.reader(f):
         cleanings_simple_identifier.append((row[0],row[1]))
-with open('latex_cleanings_simple_formula.csv') as f:
+with open(__file__.replace("module1_formula_and_identifier_retrieval.py",'latex_cleanings_simple_formula.csv')) as f:
     for row in csv.reader(f):
         cleanings_simple_formula.append((row[0],row[1]))
-with open('latex_cleanings_argument.txt') as f:
+with open(__file__.replace("module1_formula_and_identifier_retrieval.py", 'latex_cleanings_argument.txt')) as f:
     cleanings_argument = f.readlines()
 
 def derivative_to_division(latex_string):
